@@ -1,6 +1,8 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class mainmenu {
+public class mainmenu implements ActionListener{
     JFrame frame = new JFrame();
     JLabel logoLebel = new JLabel();
     JButton userBtn = new JButton("User");
@@ -21,9 +23,23 @@ public class mainmenu {
         frame.setLayout(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800,600);
+        frame.setSize(800,800);
         frame.setLocation(650,280);
+
+        adminBtn.addActionListener((ActionListener) this);
+        frame.setLocationRelativeTo(null);
+
     }
 
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource()==adminBtn)
+        {
+            frame.dispose();
+            adminLogin login= new adminLogin();
+            login.framesetup();
+
+        }
+    }
 }
