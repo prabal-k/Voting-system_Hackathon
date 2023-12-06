@@ -7,6 +7,7 @@ public class mainmenu implements ActionListener{
     JLabel logoLebel = new JLabel();
     JButton userBtn = new JButton("User");
     JButton adminBtn = new JButton("Dashboard");
+    public Menu _menu;
 
 //        frame.setSize(800,700);
 
@@ -26,6 +27,14 @@ public class mainmenu implements ActionListener{
         frame.setSize(800,800);
         frame.setLocation(650,280);
 
+        userBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false);
+                _menu = new Menu();
+                _menu.frame.setVisible(true);
+            }
+        });
         adminBtn.addActionListener((ActionListener) this);
         frame.setLocationRelativeTo(null);
 
