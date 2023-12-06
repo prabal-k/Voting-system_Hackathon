@@ -22,15 +22,11 @@ public class Menu {
     Menu()
     {
 
-
         button1.setBounds(100,400,130,40);
         button2.setBounds(350,400,130,40);
         button3.setBounds(600,400,  130,40);
         button4.setBounds(350, 600, 130, 40);
         label1.setBounds(330, 50, 200, 40);
-
-
-
 
         frame.add(label1);
         frame.add(button1);
@@ -47,12 +43,6 @@ public class Menu {
         frame.setVisible(true);
 
         frame.setLocationRelativeTo(null);
-
-
-
-
-
-
     }
 
 
