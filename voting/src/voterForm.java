@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class voterForm implements ActionListener{
-    JFrame voterFrame = new JFrame("Voteer Login Form");
+    JFrame voterFrame = new JFrame("Votee Login Form");
     JPanel voterFromPanel = new JPanel();
     JLabel citizion_No = new JLabel("Citizenship No :");
     JLabel age = new JLabel("Birth Year");
@@ -72,49 +72,57 @@ public class voterForm implements ActionListener{
     {
 
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource()==submitBtn)
-        {
+        if (e.getSource() == submitBtn) {
             String cno = citizion_noText.getText();
             String year = ageText.getText();
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@prabal9869");
-                String query = "Select * from personal_info";
-                Statement st = con.createStatement();
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "kist@123");
 
-                //handel the results
-                ResultSet rs = st.executeQuery(query);
-                String dbcno = null;
-                String dbyear = null;
-                while (rs.next()) {
-                    dbcno = rs.getString(("Citizenship_No"));
-                    dbyear = rs.getString("Birth_Year");
-                    System.out.println(dbcno+" "+dbyear);
-                    if (cno.equals(dbcno) && year.equals(dbyear)) {
-                        matchFound = true;
-                        break;
+                // Validate user against personal_info
+                String validationQuery = "SELECT * FROM personal_info WHERE Citizenship_No = ? AND Birth_Year = ?";
+                try (PreparedStatement validationStatement = con.prepareStatement(validationQuery)) {
+                    validationStatement.setString(1, cno);
+                    validationStatement.setString(2, year);
+                    ResultSet validationResultSet = validationStatement.executeQuery();
+
+                    if (validationResultSet.next()) {
+                        JOptionPane.showMessageDialog(null, "Successful Validation!!");
+                        //voterFrame.setVisible(false);
+                        // User is valid, now check vote_info
+                        String checkQuery = "SELECT * FROM vote_info WHERE Citizenship_No = ? AND Birth_Year = ?";
+                        try (PreparedStatement checkStatement = con.prepareStatement(checkQuery)) {
+                            checkStatement.setString(1, cno);
+                            checkStatement.setString(2, year);
+                            ResultSet checkResult = checkStatement.executeQuery();
+
+                            if (!checkResult.next()) {
+                                // User does not exist in vote_info, insert data
+                                String insertQuery = "INSERT INTO vote_info (Citizenship_No, Birth_Year, Vote_Status) VALUES (?, ?, 'Not Done')";
+                                try (PreparedStatement insertStatement = con.prepareStatement(insertQuery)) {
+                                    insertStatement.setString(1, cno);
+                                    insertStatement.setString(2, year);
+                                    insertStatement.executeUpdate();
+                                }
+                            }
+
+                            // Proceed to Uservoting_parties
+                            Uservoting_parties _uservotingparties = new Uservoting_parties(cno);
+                            //voterFrame.setVisible(false);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Your Details Doesn't Match !! Please Enter Correct Info");
+                        citizion_noText.setText("");
+                        ageText.setText("");
                     }
-
                 }
-                // Show the message dialog based on whether a match was found
-                if (matchFound) {
-                    JOptionPane.showMessageDialog(null, "Welcome !!");
-                    Uservoting_parties _uservotingparties = new Uservoting_parties();
-                    voterFrame.setVisible(false);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Your CitizenShip has not been registered !!");
-                    citizion_noText.setText("");
-                    ageText.setText("");
-                }
-            } catch (ClassNotFoundException ex) {
-                throw new RuntimeException(ex);
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
+            } catch (ClassNotFoundException | SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Database error occurred.");
             }
-
         }
     }
+
 }
