@@ -133,4 +133,9 @@ public class sql_con
         }
     }
 
+    void uservalidat() throws ClassNotFoundException, SQLException {
+
+
+    }
+
 }
