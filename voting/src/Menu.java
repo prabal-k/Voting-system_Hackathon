@@ -2,6 +2,8 @@
 //}
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.Stack;
 
@@ -20,12 +22,24 @@ public class Menu {
    // URL iconURL = getClass().getResource("Images/vote.png");
     // iconURL is null when not found
 
+    voterForm _voterForm;
+
 
 
     Menu()
     {
 
         button1.setBounds(100,400,130,40);
+
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                _voterForm =  new voterForm();
+                _voterForm.voterFrame.setVisible(true);
+                frame.setVisible(false);
+            }
+        });
+
         button2.setBounds(350,400,130,40);
         button3.setBounds(600,400,  130,40);
         button4.setBounds(350, 600, 130, 40);
