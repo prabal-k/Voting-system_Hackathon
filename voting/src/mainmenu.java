@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class mainmenu implements ActionListener{
-    JFrame frame = new JFrame();
+     static JFrame frame = new JFrame();
     JLabel label = new JLabel();
     RoundedButton userBtn = new RoundedButton("User",30);
     RoundedButton adminBtn = new RoundedButton("Dashboard",30);
