@@ -14,7 +14,7 @@ public class voterForm {
     JButton submitBtn = new JButton("login");
     JButton backBtn = new JButton("Back");
     Font customFont = new Font("Arial", Font.BOLD, 56);
-    Menu _menu;
+    UserMenu _menu;
 
     voterForm(){
 //        voterFromPanel.setBounds(50,70,700,500);
@@ -33,7 +33,7 @@ public class voterForm {
             @Override
             public void actionPerformed(ActionEvent e) {
                 voterFrame.setVisible(false);
-                _menu = new Menu();
+                _menu = new UserMenu();
                 _menu.frame.setVisible(true);
             }
         });
