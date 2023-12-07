@@ -8,7 +8,7 @@ import java.net.URL;
 import java.util.Stack;
 
 public class Menu {
-    JFrame frame = new JFrame();
+   JFrame frame = new JFrame();
     JButton button1 = new JButton("Vote");
     JButton button2 = new JButton("Vote Eligibility");
     JButton button3 = new JButton("Parties");
@@ -54,7 +54,7 @@ public class Menu {
        // ImageIcon icon = new ImageIcon(iconURL);
         //frame.setIconImage(icon.getImage());
 
-        frame.setSize(800, 800);
+        frame.setSize(600, 800);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.setVisible(false);
