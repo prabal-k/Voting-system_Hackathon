@@ -8,9 +8,10 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 
-public class voterForm implements ActionListe`ner{
+public class voterForm implements ActionListener{
     JFrame voterFrame = new JFrame("Votee Login Form");
     JPanel voterFromPanel = new JPanel();
+    RoundedPanel headerPanel = new RoundedPanel(10);
 
     JLabel citizion_No = new JLabel("Citizenship No :");
     JLabel age = new JLabel("Birth Year");
@@ -112,7 +113,7 @@ public class voterForm implements ActionListe`ner{
         voterFrame.setVisible(false);
         voterFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        voterFrame.setSize(800,500);
+        voterFrame.setSize(1000,700);
         voterFrame.setLocation(650,280);
 
         submitBtn.addActionListener((ActionListener) this);
