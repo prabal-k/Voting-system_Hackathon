@@ -83,6 +83,16 @@ public class UserMenu {
         voteButton.setForeground(fontColor);
         voteButton.setFont(labelFont);
         //voteButton.setOpaque(false);
+        voteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                voterForm _voteform =new voterForm();
+                _voteform.voterFrame.setVisible(true);
+                frame.setVisible(false);
+
+            }
+        });
 
 
         partiesButton.setBounds(383,150,  100,50);
@@ -101,12 +111,19 @@ public class UserMenu {
             }
         });
 
-        countButton.setBounds(240, 300, 100, 50);
-        countButton.setFocusPainted(false);
-        countButton.setBorderPainted(false);
-        countButton.setBackground(new Color(230, 57, 70));
-        countButton.setForeground(fontColor);
-        countButton.setFont(labelFont);
+//        countButton.setBounds(240, 300, 100, 50);
+//        countButton.setFocusPainted(false);
+//        countButton.setBorderPainted(false);
+//        countButton.setBackground(new Color(230, 57, 70));
+//        countButton.setForeground(fontColor);
+//        countButton.setFont(labelFont);
+//
+//        countButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//
+//            }
+//        });
         //countButton.setOpaque(false);
 
 
@@ -137,8 +154,8 @@ public class UserMenu {
             logoLabel.setIcon(new ImageIcon(logoImage));
 
 
-            Image countImg = ImageIO.read(getClass().getResource("Images\\count.png"));
-            countLabel.setIcon(new ImageIcon(countImg));
+//            Image countImg = ImageIO.read(getClass().getResource("Images\\count.png"));
+//            countLabel.setIcon(new ImageIcon(countImg));
 
         } catch (Exception ex) {
             System.out.println(ex);

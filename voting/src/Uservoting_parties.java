@@ -64,7 +64,7 @@ public class Uservoting_parties {
     private void handleVoteConfirmation() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "kist@123");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@qwe@123");
 
             // Assuming you have a way to get the current user's Citizenship_No
             String currentUserCitizenshipNo = getCurrentUserCitizenshipNo(); // Implement this method

@@ -106,8 +106,6 @@ public class mainmenu implements ActionListener{
 //                _menu = new UserMenu();
 //                _menu.frame.setVisible(true);
 
-                voterForm _voteform =new voterForm();
-                _voterForm.voterFrame.setVisible(true);
                 //_voteform.uservalidate();
 
             }

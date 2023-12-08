@@ -602,7 +602,7 @@ public class adminLogin implements ActionListener
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "kist@123");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@qwe@123");
 
             // Query to get the total number of votes
             String totalVotesQuery = "SELECT SUM(Vote_Count) AS TotalVotes FROM party_info";

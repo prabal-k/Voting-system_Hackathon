@@ -131,7 +131,7 @@ public class voterForm implements ActionListener{
             String year = ageText.getText();
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "kist@123");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@qwe@123");
 
                 // Validate user against personal_info
                 String validationQuery = "SELECT * FROM personal_info WHERE Citizenship_No = ? AND Birth_Year = ?";
