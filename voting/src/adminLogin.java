@@ -245,6 +245,7 @@ public class adminLogin implements ActionListener
         sql_con _sql_con = new sql_con("root", "@qwe@123", this);
 
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@qwe@123");
+
         String query = "Select * from personal_info";
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery(query);
@@ -350,7 +351,9 @@ public class adminLogin implements ActionListener
             String address = addressTextField.getText();
             String city = cityTextField.getText();
 
+
             sql_con sqlCon = new sql_con("root", "@qwe@123", this);
+
             sqlCon.insertDataIntoDatabase(citizenshipNo, name, birthYear, fatherName, address, city);
 
             // Optionally, close the insert frame or show a success message
@@ -415,7 +418,9 @@ public class adminLogin implements ActionListener
     private boolean isCitizenshipNoValid(int enteredCitizenshipNo) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
+
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@qwe@123");
+
 
             String query = "SELECT * FROM personal_info WHERE Citizenship_No=?";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
@@ -568,6 +573,7 @@ public class adminLogin implements ActionListener
     }
 
     void openResultsPanel() {
+
 //        JFrame resultsFrame = new JFrame("Results Panel");
         // Add your results panel components and setup here
 
@@ -577,6 +583,72 @@ public class adminLogin implements ActionListener
         deleteFrame.setVisible(false);
 
         resultsFrame.setSize(600, 600);
+
+        JFrame resultsFrame = new JFrame("Results Panel");
+        resultsFrame.setLayout(new BorderLayout()); // Use BorderLayout for better positioning
+
+        // Panel for labels
+        JPanel labelPanel = new JPanel();
+        labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
+
+        JLabel totalVotesLabel = new JLabel();
+        JLabel leadingPartiesLabel = new JLabel("<html>Leading Parties:<br>");
+
+        // Table for displaying party info
+        DefaultTableModel partyInfoModel = new DefaultTableModel();
+        JTable partyInfoTable = new JTable(partyInfoModel);
+        JScrollPane scrollPane = new JScrollPane(partyInfoTable);
+        partyInfoModel.setColumnIdentifiers(new String[]{"Party Name", "Vote Count"});
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "kist@123");
+
+            // Query to get the total number of votes
+            String totalVotesQuery = "SELECT SUM(Vote_Count) AS TotalVotes FROM party_info";
+
+            // Query to find the leading parties
+            String leadingPartiesQuery = "SELECT Party_Name FROM party_info WHERE Vote_Count = (SELECT MAX(Vote_Count) FROM party_info)";
+
+            // Execute queries and populate labels and table
+            try (Statement stmt = con.createStatement()) {
+                ResultSet totalVotesRs = stmt.executeQuery(totalVotesQuery);
+                if (totalVotesRs.next()) {
+                    int totalVotes = totalVotesRs.getInt("TotalVotes");
+                    totalVotesLabel.setText("Total Votes: " + totalVotes);
+                }
+
+                ResultSet leadingPartiesRs = stmt.executeQuery(leadingPartiesQuery);
+                while (leadingPartiesRs.next()) {
+                    String leadingParty = leadingPartiesRs.getString("Party_Name");
+                    leadingPartiesLabel.setText(leadingPartiesLabel.getText() + leadingParty + "<br>");
+                }
+                leadingPartiesLabel.setText(leadingPartiesLabel.getText() + "</html>"); // Close HTML tag
+
+                ResultSet partyInfoRs = stmt.executeQuery("SELECT * FROM party_info");
+                while (partyInfoRs.next()) {
+                    partyInfoModel.addRow(new Object[]{
+                            partyInfoRs.getString("Party_Name"),
+                            partyInfoRs.getInt("Vote_Count")
+                    });
+                }
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(resultsFrame, "Database error occurred.");
+        }
+
+        // Add labels to the label panel
+        labelPanel.add(totalVotesLabel);
+        labelPanel.add(leadingPartiesLabel);
+
+        // Add components to the frame
+        resultsFrame.add(labelPanel, BorderLayout.CENTER);
+        resultsFrame.add(scrollPane, BorderLayout.EAST); // Table on the right side
+
+        // Frame setup
+        resultsFrame.setSize(800, 600); // Adjusted for better visibility
+
         resultsFrame.setLocationRelativeTo(null);
         resultsFrame.setVisible(true);
     }

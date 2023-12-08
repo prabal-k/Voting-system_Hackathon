@@ -5,11 +5,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
-public class voterForm {
-    JFrame voterFrame = new JFrame("Voteer Login Form");
-    RoundedPanel voterFromPanel = new RoundedPanel(30);
-    RoundedPanel headerPanel = new RoundedPanel(0);
+
+public class voterForm implements ActionListe`ner{
+    JFrame voterFrame = new JFrame("Votee Login Form");
+    JPanel voterFromPanel = new JPanel();
+
     JLabel citizion_No = new JLabel("Citizenship No :");
     JLabel age = new JLabel("Birth Year");
     JLabel headerTitle = new JLabel("Voter Login");
@@ -19,12 +21,14 @@ public class voterForm {
     RoundedButton backBtn = new RoundedButton("<",50);
     Font customFont = new Font("Arial", Font.BOLD, 56);
     UserMenu _menu;
+
     Font labelFont = new Font("Arial", Font.BOLD, 20);
     Font textBox = new Font("Arial",Font.BOLD,16);
 
     Color btnColor = new Color(230,57,70);
     Color fontColor = new Color(241,250,238);
     Color greenColor = new Color(87, 204, 153);
+
 
     voterForm(){
         voterFromPanel.setBounds(200,175,600,400);
@@ -107,8 +111,70 @@ public class voterForm {
         voterFrame.setLayout(null);
         voterFrame.setVisible(false);
         voterFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        voterFrame.setSize(1000,700);
-        voterFrame.setLocationRelativeTo(null);
+
+        voterFrame.setSize(800,500);
+        voterFrame.setLocation(650,280);
+
+        submitBtn.addActionListener((ActionListener) this);
+
+    }
+
+    void uservalidate()
+    {
+
+    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == submitBtn) {
+            String cno = citizion_noText.getText();
+            String year = ageText.getText();
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "kist@123");
+
+                // Validate user against personal_info
+                String validationQuery = "SELECT * FROM personal_info WHERE Citizenship_No = ? AND Birth_Year = ?";
+                try (PreparedStatement validationStatement = con.prepareStatement(validationQuery)) {
+                    validationStatement.setString(1, cno);
+                    validationStatement.setString(2, year);
+                    ResultSet validationResultSet = validationStatement.executeQuery();
+
+                    if (validationResultSet.next()) {
+                        JOptionPane.showMessageDialog(null, "Successful Validation!!");
+                        //voterFrame.setVisible(false);
+                        // User is valid, now check vote_info
+                        String checkQuery = "SELECT * FROM vote_info WHERE Citizenship_No = ? AND Birth_Year = ?";
+                        try (PreparedStatement checkStatement = con.prepareStatement(checkQuery)) {
+                            checkStatement.setString(1, cno);
+                            checkStatement.setString(2, year);
+                            ResultSet checkResult = checkStatement.executeQuery();
+
+                            if (!checkResult.next()) {
+                                // User does not exist in vote_info, insert data
+                                String insertQuery = "INSERT INTO vote_info (Citizenship_No, Birth_Year, Vote_Status) VALUES (?, ?, 'Not Done')";
+                                try (PreparedStatement insertStatement = con.prepareStatement(insertQuery)) {
+                                    insertStatement.setString(1, cno);
+                                    insertStatement.setString(2, year);
+                                    insertStatement.executeUpdate();
+                                }
+                            }
+
+                            // Proceed to Uservoting_parties
+                            Uservoting_parties _uservotingparties = new Uservoting_parties(cno);
+                            //voterFrame.setVisible(false);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Your Details Doesn't Match !! Please Enter Correct Info");
+                        citizion_noText.setText("");
+                        ageText.setText("");
+                    }
+                }
+            } catch (ClassNotFoundException | SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Database error occurred.");
+            }
+        }
+
     }
 
 }
