@@ -15,6 +15,9 @@ public class mainmenu implements ActionListener{
     RoundedButton adminBtn = new RoundedButton("Dashboard",30);
     public UserMenu _menu;
 
+    //Font
+    Font labelFont = new Font("Arial", Font.BOLD, 20);
+
     //Panel
     private RoundedPanel mainPanel;
 
@@ -22,11 +25,10 @@ public class mainmenu implements ActionListener{
     voterForm _voterForm = new voterForm();
 
     mainmenu(){
-        frame.getContentPane().setBackground(new Color(135, 206, 250)); // RGB values for light blue
+        frame.getContentPane().setBackground(new Color(72, 202, 228)); // RGB values for light blue
 
         JLabel label = new JLabel();
         label.setBounds(20,80,393,500);
-        frame.add(label);
         label.setHorizontalAlignment(JLabel.LEFT);
         try {
             Image img = ImageIO.read(getClass().getResource("Images\\electionCommission.png"));
@@ -34,6 +36,7 @@ public class mainmenu implements ActionListener{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         // Add the label to the content pane of the JFrame
 //        frame.getContentPane().add(label, BorderLayout.WEST);
 //        userBtn.setBounds(500,200,200,50);
@@ -50,28 +53,37 @@ public class mainmenu implements ActionListener{
 
 //        frame.add(userBtn);
 //        frame.add(adminBtn);
+
+
         userBtn.setBorderPainted(false);
         userBtn.setFocusPainted(false);
-        adminBtn.setFocusPainted(false);
 
 
 
         mainPanel = new RoundedPanel(30);
         mainPanel.setBounds(500,175,400,300);
-//        mainPanel.setBackground(Color.lightGray);
         mainPanel.setBackground(new Color(255, 255, 255, 100));
+//        mainPanel.setBorder();
         mainPanel.setLayout(null);
 
         userBtn.setBounds(80,80,250,60);
+        adminBtn.setFocusPainted(false);
+        userBtn.setBackground(new Color(230, 57, 70));
+        userBtn.setForeground(new Color(241, 250, 238));
+        userBtn.setFont(labelFont);
+
         adminBtn.setBounds(80,160,250,60);
+        adminBtn.setBorderPainted(false);
+        adminBtn.setBackground(new Color(230, 57, 70));
+        adminBtn.setForeground(new Color(241, 250, 238));
+        adminBtn.setFont(labelFont);
+
 
         mainPanel.add(userBtn);
         mainPanel.add(adminBtn);
 
+        frame.add(label);
         frame.add(mainPanel);
-
-//        frame.add(mainPanel, BorderLayout.CENTER);
-//        mainPanel.setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
 
 
         frame.setResizable(false);
@@ -85,12 +97,19 @@ public class mainmenu implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.setVisible(false);
+
+                _menu = new UserMenu();
+                _menu.frame.setVisible(true);
+
+            
+
 //                _menu = new UserMenu();
 //                _menu.frame.setVisible(true);
 
                 voterForm _voteform =new voterForm();
                 _voterForm.voterFrame.setVisible(true);
                 //_voteform.uservalidate();
+
             }
         });
         adminBtn.addActionListener((ActionListener) this);
@@ -105,6 +124,8 @@ public class mainmenu implements ActionListener{
             frame.dispose();
             adminLogin login= new adminLogin();
             login.framesetup();
+
+
 
         }
     }
