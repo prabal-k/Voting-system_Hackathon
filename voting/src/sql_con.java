@@ -6,7 +6,7 @@ public class sql_con
     String dbusername;
     String dbpass;
     boolean validate =false;
-    private adminLogin adminLoginRef;
+    static adminLogin adminLoginRef;
 
     public sql_con(String username, String password, adminLogin ref) {
         dbusername = username;
@@ -16,7 +16,7 @@ public class sql_con
 
     void databaseconnection() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@prabal9869");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@qwe@123");
 
         String query = "Select * from admin_login";
         //open the statement
@@ -36,7 +36,6 @@ public class sql_con
             if (username.equals(dbusername) && pass.equals(dbpass)) {
                 JOptionPane.showMessageDialog(null, "Welcome !!");
             } else {
-
                 JOptionPane.showMessageDialog(null, "Invalid username or password !!");
             }
 
@@ -49,7 +48,7 @@ public class sql_con
     void insertDataIntoDatabase(int citizenshipNo, String name, int birthYear, String fatherName, String address, String city) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@prabal9869");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@qwe@123");
 
             // Prepare the SQL statement
             String insertQuery = "INSERT INTO personal_info (Citizenship_No, Name, Birth_Year, Father_Name, Address, City) VALUES (?, ?, ?, ?, ?, ?)";
@@ -79,7 +78,7 @@ public class sql_con
     void updateDataInDatabase(int citizenshipNo, String name, int birthYear, String fatherName, String address, String city) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@prabal9869");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@qwe@123");
 
             // Prepare the SQL statement
             String updateQuery = "UPDATE personal_info SET Name=?, Birth_Year=?, Father_Name=?, Address=?, City=? WHERE Citizenship_No=?";
@@ -111,7 +110,7 @@ public class sql_con
     public void deleteDataFromDatabase(int citizenshipNo) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@prabal9869");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@qwe@123");
 
             String query = "DELETE FROM personal_info WHERE Citizenship_No=?";
             PreparedStatement preparedStatement = con.prepareStatement(query);

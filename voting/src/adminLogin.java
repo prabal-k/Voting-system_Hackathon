@@ -1,3 +1,6 @@
+import RoundedPanels.RoundedButton;
+import RoundedPanels.RoundedPanel;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -9,87 +12,179 @@ public class adminLogin implements ActionListener
     JFrame adminframe =new JFrame();
     JLabel username = new JLabel();
     JLabel password = new JLabel();
+    JLabel headerTitle = new JLabel("Admin Login");
+
     public JTable dataTable;
     private DefaultTableModel tableModel;
     JTextField usernametextfield = new JTextField();
     JTextField passwordtextfield = new JTextField();
 
-    JButton submitButton =new JButton();
-    JButton backbutton =new JButton();
+    RoundedButton submitButton =new RoundedButton("Submit",10);
+    RoundedButton backbutton =new RoundedButton("",40);
+
+    RoundedPanel adminLoginPanel = new RoundedPanel(20);
+    RoundedPanel headerPanel = new RoundedPanel(0);
+
+
+    //Fonts
+    Font customFont = new Font("Arial", Font.BOLD, 56);
+    Font labelFont = new Font("Arial", Font.BOLD, 20);
+    Font textBox = new Font("Arial",Font.BOLD,16);
+
+    //Colors
+    Color btnColor = new Color(230,57,70);
+    Color fontColor = new Color(241,250,238);
+    Color greenColor = new Color(87, 204, 153);
+    JFrame insertFrame = new JFrame("Insert Panel");
+    JFrame validationFrame = new JFrame("Validation Panel");
+    JFrame deleteFrame = new JFrame("Delete Panel");
+    JFrame resultsFrame = new JFrame("Results Panel");
 
 
     void framesetup()
     {
-        //frame setup
+        adminframe.getContentPane().setBackground(new Color(72, 202, 228));
+
+        //Panels
+        adminLoginPanel.setBounds(200,175,600,400);
+        adminLoginPanel.setBackground(new Color(255,255,255,100));
+        adminLoginPanel.setLayout(null);
+
+        headerPanel.setBounds(0,0,1000,100);
+        headerPanel.setBackground(new Color(230, 57, 70));
+        headerPanel.setLayout(null);
+
+        headerTitle.setBounds(375,0,400,100);
+        headerTitle.setFont(customFont);
+        headerTitle.setForeground(Color.white);
+
+        backbutton.setBounds(10,25,40,40);
+        backbutton.setText("<");
+        backbutton.setFont(labelFont);
+        backbutton.setForeground(Color.white);
+        backbutton.setBackground(greenColor);
+//        // Load the image icon
+//        ImageIcon backIcon = new ImageIcon("Images\\back.png"); // Replace with the actual path to your image
+//        // Set the image icon for the button
+//        backbutton.setIcon(backIcon);
+        backbutton.setBorderPainted(false);
+        backbutton.setFocusPainted(false);
+
+        headerPanel.add(headerTitle);
+        headerPanel.add(backbutton);
+
+        username.setBounds(100,100,150,30);
+        username.setText("Username: ");
+        username.setForeground(new Color(241, 250, 238));
+        username.setFont(labelFont);
+
+
+        password.setBounds(100,200,150,30);
+        password.setText("Password: ");
+        password.setForeground(new Color(241, 250, 238));
+        password.setFont(labelFont);
+
+
+        usernametextfield.setBounds(260,100,200,30);
+        usernametextfield.setFont(textBox);
+
+
+        passwordtextfield.setBounds(260,200,200,30);
+        passwordtextfield.setFont(textBox);
+
+        submitButton.setBounds(250,280,150,50);
+        submitButton.setBorderPainted(false);
+        submitButton.setBackground(new Color(230,57,70));
+        submitButton.setForeground(new Color(241,250,238));
+        submitButton.setFont(labelFont);
+
+
+        adminLoginPanel.add(username);
+        adminLoginPanel.add(password);
+        adminLoginPanel.add(usernametextfield);
+        adminLoginPanel.add(passwordtextfield);
+        adminLoginPanel.add(submitButton);
+
+
+
+//        adminframe.add(backbutton);
+
+        submitButton.addActionListener((ActionListener) this);
+        backbutton.addActionListener((ActionListener) this);
+
+
+        adminframe.add(adminLoginPanel);
+        adminframe.add(headerPanel);
+
+
+        //Frames
         adminframe.setResizable(false);
         adminframe.setLayout(null);
         adminframe.setVisible(true);
         adminframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        adminframe.setSize(500,500);
+        adminframe.setSize(1000,700);
         adminframe.setLocation(650,280);
         adminframe.setLocationRelativeTo(null);
-
-        adminframe.getContentPane().setBackground(new Color(135,206,250));
-
-        username.setBounds(200,200,80,30);
-        username.setText("Username: ");
-        adminframe.add(username);
-
-        password.setBounds(200,300,80,30);
-        password.setText("Password: ");
-        adminframe.add(password);
-
-        usernametextfield.setBounds(300,200,80,30);
-        adminframe.add(usernametextfield);
-
-        passwordtextfield.setBounds(300,300,80,30);
-        adminframe.add(passwordtextfield);
-
-        submitButton.setBounds(300,400,80,30);
-        submitButton.setText("Submit");
-        adminframe.add(submitButton);
-
-        //back button
-        backbutton.setBounds(10,10,40,40);
-//      backbutton.setText("");
-        // Load the image icon
-        ImageIcon backIcon = new ImageIcon("Images\\back.png"); // Replace with the actual path to your image
-
-        // Set the image icon for the button
-        backbutton.setIcon(backIcon);
-        backbutton.setFocusPainted(false);
-        adminframe.add(backbutton);
-
-        submitButton.addActionListener((ActionListener) this);
-        backbutton.addActionListener((ActionListener) this);
 
 
     }
     void adminPanel() {
         JFrame adminPanelFrame = new JFrame("Admin Panel");
 
-        JPanel buttonPanel = new JPanel();
+//        Color btnColor = new Color(230,57,70);
+//        Color fontColor = new Color(241,250,238);
+
+        adminPanelFrame.getContentPane().setBackground(new Color(72, 202, 228));
+
+        RoundedPanel buttonPanel = new RoundedPanel(0);
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
 
         buttonPanel.setLayout(layout);
+        buttonPanel.setBackground(new Color(255,255,255,100));
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 0, 5, 0);
 
 
-        Dimension buttonSize = new Dimension(150, 50);
-        JButton insertButton = new JButton("Insert");
+        Dimension buttonSize = new Dimension(250, 50);
+        RoundedButton insertButton = new RoundedButton("Insert",15);
         insertButton.setPreferredSize(buttonSize);
-        JButton deleteButton = new JButton("Delete");
-        deleteButton.setPreferredSize(buttonSize);
-        JButton updateButton = new JButton("Update");
-        updateButton.setPreferredSize(buttonSize);
-        JButton resultsButton = new JButton("Results");
-        resultsButton.setPreferredSize(buttonSize);
+        insertButton.setBorderPainted(false);
+        insertButton.setBackground(btnColor);
+        insertButton.setForeground(fontColor);
+        insertButton.setFont(labelFont);
 
-        JButton refreshButton = new JButton("Refresh");
+        RoundedButton deleteButton = new RoundedButton("Delete",15);
+        deleteButton.setPreferredSize(buttonSize);
+        deleteButton.setBorderPainted(false);
+        deleteButton.setBackground(btnColor);
+        deleteButton.setForeground(fontColor);
+        deleteButton.setFont(labelFont);
+
+
+        RoundedButton updateButton = new RoundedButton("Update",15);
+        updateButton.setPreferredSize(buttonSize);
+        updateButton.setBorderPainted(false);
+        updateButton.setBackground(btnColor);
+        updateButton.setForeground(fontColor);
+        updateButton.setFont(labelFont);
+
+
+        RoundedButton resultsButton = new RoundedButton("Results",15);
+        resultsButton.setPreferredSize(buttonSize);
+        resultsButton.setBorderPainted(false);
+        resultsButton.setBackground(btnColor);
+        resultsButton.setForeground(fontColor);
+        resultsButton.setFont(labelFont);
+
+
+        RoundedButton refreshButton = new RoundedButton("Refresh",15);
         refreshButton.setPreferredSize(buttonSize);
+        refreshButton.setBorderPainted(false);
+        refreshButton.setBackground(greenColor);
+        refreshButton.setForeground(fontColor);
+        refreshButton.setFont(labelFont);
 
         refreshButton.addActionListener(e -> {
             // Call method to refresh data in the table
@@ -135,7 +230,7 @@ public class adminLogin implements ActionListener
         adminPanelFrame.add(scrollPane, frameGbc);
 
         // Frame setup
-        adminPanelFrame.setSize(500, 500);
+        adminPanelFrame.setSize(1000, 700);
         adminPanelFrame.setLocationRelativeTo(null);
         adminPanelFrame.setVisible(true);
         try {
@@ -147,9 +242,9 @@ public class adminLogin implements ActionListener
     }
     public void retrieveAndDisplayData() throws ClassNotFoundException, SQLException {
         tableModel.setRowCount(0);
-        sql_con _sql_con = new sql_con("root", "kist@123", this);
+        sql_con _sql_con = new sql_con("root", "@qwe@123", this);
 
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@prabal9869");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@qwe@123");
         String query = "Select * from personal_info";
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery(query);
@@ -173,7 +268,10 @@ public class adminLogin implements ActionListener
         con.close();
     }
     void openInsertPanel() {
-        JFrame insertFrame = new JFrame("Insert Panel");
+        validationFrame.setVisible(false);
+//        insertFrame.setVisible(false);
+        resultsFrame.setVisible(false);
+        deleteFrame.setVisible(false);
 
         // Panel to hold the form components
         JPanel formPanel = new JPanel();
@@ -181,22 +279,41 @@ public class adminLogin implements ActionListener
 
         // Labels and TextFields for each field
         JLabel citizenshipLabel = new JLabel("Citizenship No:");
+        citizenshipLabel.setFont(labelFont);
+//        citizenshipLabel.setForeground(fontColor);
+
         JTextField citizenshipTextField = new JTextField();
+        citizenshipTextField.setFont(labelFont);
 
         JLabel nameLabel = new JLabel("Name:");
+        nameLabel.setFont(labelFont);
+
         JTextField nameTextField = new JTextField();
+        nameTextField.setFont(textBox);
 
         JLabel birthYearLabel = new JLabel("Birth Year:");
+        birthYearLabel.setFont(labelFont);
+
         JTextField birthYearTextField = new JTextField();
+        birthYearTextField.setFont(textBox);
 
         JLabel fatherNameLabel = new JLabel("Father's Name:");
+        fatherNameLabel.setFont(labelFont);
+
         JTextField fatherNameTextField = new JTextField();
+        fatherNameTextField.setFont(textBox);
 
         JLabel addressLabel = new JLabel("Address:");
+        addressLabel.setFont(labelFont);
+
         JTextField addressTextField = new JTextField();
+        addressTextField.setFont(textBox);
 
         JLabel cityLabel = new JLabel("City:");
+        cityLabel.setFont(labelFont);
+
         JTextField cityTextField = new JTextField();
+        cityTextField.setFont(textBox);
 
         // Add labels and text fields to the form panel
         formPanel.add(citizenshipLabel);
@@ -218,7 +335,12 @@ public class adminLogin implements ActionListener
         formPanel.add(cityTextField);
 
         // Button to perform the insert operation
-        JButton insertButton = new JButton("Insert");
+        RoundedButton insertButton = new RoundedButton("Insert",15);
+        insertButton.setBackground(btnColor);
+        insertButton.setForeground(fontColor);
+        insertButton.setBorderPainted(false);
+        insertButton.setFont(labelFont);
+
         insertButton.addActionListener(e -> {
             // Get data from text fields
             int citizenshipNo = Integer.parseInt(citizenshipTextField.getText());
@@ -228,7 +350,7 @@ public class adminLogin implements ActionListener
             String address = addressTextField.getText();
             String city = cityTextField.getText();
 
-            sql_con sqlCon = new sql_con("root", "@prabal9869", this);
+            sql_con sqlCon = new sql_con("root", "@qwe@123", this);
             sqlCon.insertDataIntoDatabase(citizenshipNo, name, birthYear, fatherName, address, city);
 
             // Optionally, close the insert frame or show a success message
@@ -248,14 +370,25 @@ public class adminLogin implements ActionListener
 
 
     void openUpdatePanel() {
-        JFrame validationFrame = new JFrame("Validation Panel");
+//        JFrame validationFrame = new JFrame("Validation Panel");
+
+        insertFrame.setVisible(false);
+        deleteFrame.setVisible(false);
+        resultsFrame.setVisible(false);
         JPanel validationPanel = new JPanel();
         validationPanel.setLayout(new GridLayout(3, 2, 10, 10));
 
         JLabel validationLabel = new JLabel("Citizenship No:");
         JTextField validationTextField = new JTextField();
 
-        JButton verifyButton = new JButton("Verify");
+        RoundedButton verifyButton = new RoundedButton("Verify",15);
+        verifyButton.setFont(labelFont);
+        verifyButton.setBackground(btnColor);
+        verifyButton.setBorderPainted(false);
+        verifyButton.setForeground(fontColor);
+
+
+
         verifyButton.addActionListener(e -> {
             int enteredCitizenshipNo = Integer.parseInt(validationTextField.getText());
 
@@ -282,7 +415,7 @@ public class adminLogin implements ActionListener
     private boolean isCitizenshipNoValid(int enteredCitizenshipNo) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@prabal9869");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/voting", "root", "@qwe@123");
 
             String query = "SELECT * FROM personal_info WHERE Citizenship_No=?";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
@@ -348,7 +481,7 @@ public class adminLogin implements ActionListener
             String address = addressTextField.getText();
             String city = cityTextField.getText();
 
-            sql_con sqlCon = new sql_con("root", "kist@123", this);
+            sql_con sqlCon = new sql_con("root", "@qwe@123", this);
             sqlCon.updateDataInDatabase(citizenshipNoToUpdate, name, birthYear, fatherName, address, city);
 
             updateFrame.dispose();
@@ -363,14 +496,23 @@ public class adminLogin implements ActionListener
         updateFrame.setVisible(true);
     }
     void openDeletePanel() {
-        JFrame validationFrame = new JFrame("Validation Panel");
+        insertFrame.setVisible(false);
+        validationFrame.setVisible(false);
+        resultsFrame.setVisible(false);
+
         JPanel validationPanel = new JPanel();
         validationPanel.setLayout(new GridLayout(3, 2, 10, 10));
 
         JLabel validationLabel = new JLabel("Citizenship No:");
         JTextField validationTextField = new JTextField();
 
-        JButton verifyButton = new JButton("Verify");
+        RoundedButton verifyButton = new RoundedButton("Verify",15);
+        verifyButton.setFont(labelFont);
+        verifyButton.setBackground(btnColor);
+        verifyButton.setBorderPainted(false);
+        verifyButton.setForeground(fontColor);
+
+
         verifyButton.addActionListener(e -> {
             int enteredCitizenshipNo = Integer.parseInt(validationTextField.getText());
 
@@ -396,7 +538,6 @@ public class adminLogin implements ActionListener
     }
 
     private void showDeletePanel(int citizenshipNo) {
-        JFrame deleteFrame = new JFrame("Delete Panel");
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new GridLayout(1, 2, 10, 10));
 
@@ -408,7 +549,7 @@ public class adminLogin implements ActionListener
         deleteButton.addActionListener(e -> {
             int citizenshipNoToDelete = Integer.parseInt(citizenshipTextField.getText());
 
-            sql_con sqlCon = new sql_con("root", "kist@123", this);
+            sql_con sqlCon = new sql_con("root", "@qwe@123", this);
             sqlCon.deleteDataFromDatabase(citizenshipNoToDelete);
 
             deleteFrame.dispose();
@@ -427,8 +568,14 @@ public class adminLogin implements ActionListener
     }
 
     void openResultsPanel() {
-        JFrame resultsFrame = new JFrame("Results Panel");
+//        JFrame resultsFrame = new JFrame("Results Panel");
         // Add your results panel components and setup here
+
+        validationFrame.setVisible(false);
+//        insertFrame.setVisible(false);
+        insertFrame.setVisible(false);
+        deleteFrame.setVisible(false);
+
         resultsFrame.setSize(600, 600);
         resultsFrame.setLocationRelativeTo(null);
         resultsFrame.setVisible(true);
